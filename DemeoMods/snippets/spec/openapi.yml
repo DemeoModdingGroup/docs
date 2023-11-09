@@ -1,0 +1,235 @@
+openapi: 3.1.0
+
+info:
+  title: DemeoMods API
+  version: 1.0.0
+
+externalDocs:
+  description: Documentation
+  url: https://docs.demeomods.app
+
+servers:
+  - url: https://repo.demeomods.app
+
+paths:
+  /projects/projects.json:
+    get:
+      summary: Retrieve all projects.
+      responses:
+        '200':
+          $ref: '#/components/responses/get_projects_response'
+  /projects/{name}/project.json:
+    get:
+      summary: Retrieve a project.
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: The project's name, case sensitive.
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/get_project_response'
+  /projects/{name}/versions.json:
+    get:
+      summary: Retrieve a project's version list.
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: The project's name, case sensitive.
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/get_project_versions_response'
+
+components:
+  responses:
+    get_projects_response:
+      description: Successfully retrieved all projects.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/project_object'
+    get_project_response:
+      description: Successfully retrieved project.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/project_object'
+    get_project_versions_response:
+      description: Successfully retrieved project's versions
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/project_versions_object'
+  schemas:
+    license_object:
+      type: object
+      required:
+        - id
+        - name
+        - url
+      properties:
+        id:
+          type: string
+          description: SPDX License Identifier
+        name:
+          type: string
+          description: License name
+        url:
+          type: string
+          format: uri
+          description: URL to the project's license file
+    contact_object:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        homepage:
+          type: string
+          format: uri
+        issues:
+          type: string
+          format: uri
+        sources:
+          type: string
+          format: uri
+    project_object:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The project's name.
+        icon:
+          type: string
+          format: uri
+          description: URL to the project's square icon
+        description:
+          type: string
+          description: Short description of the project
+        contact:
+          $ref: '#/components/schemas/contact_object'
+        license:
+          oneOf:
+            - $ref: '#/components/schemas/license_object'
+            - type: string
+        contributors:
+          description: "A collection of `key: value` pairs denoting the persons or organizations that contributed to this project. The key should be the name of the person or organization, while the value can be either a string representing a single role or an array of strings each one representing a single role.\nA role can be any valid string. The \"Owner\" role is defined as being the person(s) or organization in charge of the project."
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+    file_object:
+      type: object
+      required:
+        - name
+        - url
+        - sha256
+      properties:
+        name:
+          type: string
+          description: The filename with extension
+        url:
+          type: string
+          format: uri
+          description: The direct download url for the file
+        sha256:
+          type: string
+          description: The file's sha256 hash
+    version_range_object:
+      type: object
+      properties:
+        from:
+          type: string
+          description: the lower bounds of the version range
+        to:
+          type: string
+          description: the upper bounds of the version range
+    dependency_object:
+      type: object
+      required:
+        - name
+        - version
+      properties:
+        name:
+          type: string
+          description: The dependency's name
+        version:
+          oneOf:
+            - $ref: '#/components/schemas/version_range_object'
+            - type: string
+        reason:
+          type: string
+          description: The reason for the dependency
+    version_object:
+      type: object
+      required:
+        - name
+        - loader
+        - stable
+        - release_date
+        - demeo_build
+        - file
+      properties:
+        name:
+          type: string
+          description: The version's name
+          examples:
+            - 1.0.0
+        loader:
+          type: string
+          description: The mod loader used by this version
+          enum:
+            - built-in
+            - MelonLoader
+            - BepInEx
+        stable:
+          type: boolean
+          description: whether the version should be considered stable
+        release_date:
+          type: string
+          format: date-time
+          description: The date-time for when this version was released
+        demeo_build:
+          oneOf:
+            - $ref: '#/components/schemas/version_range_object'
+            - type: string
+        dependencies:
+          type: array
+          description: a list of mods that this version depends on
+          items:
+            $ref: '#/components/schemas/dependency_object'
+        conflicts:
+          type: array
+          description: a list of mods that this version conflicts with
+          items:
+            $ref: '#/components/schemas/dependency_object'
+        file:
+          $ref: '#/components/schemas/file_object'
+    project_versions_object:
+      type: object
+      required:
+        - latest
+        - latest_stable
+        - versions
+      properties:
+        latest:
+          type: string
+          description: the version name that matches the latest version
+        latest_stable:
+          type: string
+          description: the version name that matches the latest stable version
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/version_object'

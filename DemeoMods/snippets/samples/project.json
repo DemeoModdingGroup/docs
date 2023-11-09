@@ -1,0 +1,17 @@
+{
+  "name": "Py.LibNetwork",
+  "icon": "https://repo.demeomods.app/projects/Py.LibLocalization/icon.png",
+  "description": "Channel based networking for Demeo mods.",
+  "contact": {
+    "sources": "https://github.com/JustPyrrha/Py.LibNetwork",
+    "issues": "https://github.com/JustPyrrha/Py.LibNetwork/issues"
+  },
+  "license": {
+    "id": " MIT",
+    "name": "MIT License",
+    "url": "https://github.com/JustPyrrha/Py.LibNetwork/blob/main/LICENSE"
+  },
+  "contributors": {
+    "JustPyrrha": "Owner"
+  }
+}

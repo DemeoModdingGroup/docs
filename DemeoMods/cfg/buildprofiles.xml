@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <variables>
+        <header-logo>logo.png</header-logo>
+    </variables>
+
+    <build-profile instance="docs">
+        <variables>
+            <noindex-content>false</noindex-content>
+        </variables>
+    </build-profile>
+
+    <footer>
+        <copyright>Demeo Modding Group 2023</copyright>
+        <link href="https://discord.gg/ZDjjbRwzs4">Discord community</link>
+        <link href="https://github.com/DemeoModdingGroup">GitHub</link>
+    </footer>
+</buildprofiles>

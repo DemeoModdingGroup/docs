@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="dmd"
+                 name="Demeo Mods Documentation"
+                 start-page="Mods-Repository.md">
+
+    <toc-element topic="Mods-Repository.md">
+        <toc-element topic="Api-Specification.md"/>
+    </toc-element>
+</instance-profile>
