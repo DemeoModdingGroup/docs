@@ -7,6 +7,5 @@
                  start-page="Mods-Repository.md">
 
     <toc-element topic="Mods-Repository.md">
-        <toc-element topic="Api-Specification.md"/>
     </toc-element>
 </instance-profile>
